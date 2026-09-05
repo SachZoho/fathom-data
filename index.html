@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fathom — Data that flows. Insights that run deep.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14; --bg-2: #0e131b; --surface: #131922; --surface-2: #1a2230;
+  --border: rgba(255,255,255,0.06); --border-bright: rgba(255,255,255,0.12);
+  --text: #e8ecf2; --text-dim: #8a96a8; --text-faint: #5a6678;
+  --accent-teal: #14b8a6; --accent-teal-dim: rgba(20,184,166,0.1);
+  --accent-amber: #f59e0b; --accent-amber-dim: rgba(245,158,11,0.1);
+  --accent-slate: #3b82f6; --accent-slate-dim: rgba(59,130,246,0.1);
+  --accent-emerald: #10b981; --accent-emerald-dim: rgba(16,185,129,0.1);
+  --font-head: 'Instrument Serif', serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --maxw: 1200px; --radius: 14px; --radius-sm: 8px;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f5f3ee; --bg-2: #efede7; --surface: #ffffff; --surface-2: #f0eee8;
+    --border: rgba(0,0,0,0.08); --border-bright: rgba(0,0,0,0.14);
+    --text: #1a1d23; --text-dim: #555861; --text-faint: #9094a0;
+    --accent-teal: #0d9488; --accent-teal-dim: rgba(13,148,136,0.08);
+    --accent-amber: #d97706; --accent-amber-dim: rgba(217,119,6,0.08);
+    --accent-slate: #2563eb; --accent-slate-dim: rgba(37,99,235,0.08);
+    --accent-emerald: #059669; --accent-emerald-dim: rgba(5,150,105,0.08);
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+body::before { content: ''; position: fixed; top: -10%; left: 50%; transform: translateX(-50%); width: 900px; height: 500px; background: radial-gradient(ellipse, var(--accent-teal-dim), transparent 70%); filter: blur(80px); z-index: -1; pointer-events: none; }
+.container { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+nav { position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px); background: rgba(10,14,20,0.72); border-bottom: 1px solid var(--border); }
+@media (prefers-color-scheme: light) { nav { background: rgba(245,243,238,0.82); } }
+nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.logo { font-family: var(--font-head); font-size: 1.6rem; letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; color: var(--text); text-decoration: none; }
+.logo-mark { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; }
+.logo-mark svg { width: 100%; height: 100%; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-teal); color: #000; padding: 9px 20px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; border: none; cursor: pointer; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--accent-teal-dim); }
+@media (prefers-color-scheme: light) { .nav-cta { color: #fff; } }
+@media (max-width: 768px) { .nav-links { display: none; } }
+.hero { padding: 120px 0 80px; text-align: center; position: relative; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-teal-dim); border: 1px solid rgba(20,184,166,0.25); color: var(--accent-teal); padding: 6px 14px; border-radius: 100px; font-family: var(--font-mono); font-size: 0.75rem; margin-bottom: 28px; animation: fadeUp 0.6s ease forwards; }
+.hero-badge .dot { width: 6px; height: 6px; background: var(--accent-teal); border-radius: 50%; animation: pulse-dot 2s ease infinite; }
+@keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.hero h1 { font-family: var(--font-head); font-size: clamp(2.5rem, 6vw, 4.8rem); line-height: 1.05; letter-spacing: -1.5px; margin-bottom: 24px; animation: fadeUp 0.7s 0.1s ease both; }
+.hero h1 em { font-style: italic; color: var(--accent-teal); }
+.hero p.sub { font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--text-dim); max-width: 620px; margin: 0 auto 40px; animation: fadeUp 0.7s 0.2s ease both; }
+.hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.7s 0.3s ease both; }
+.btn-primary { background: var(--accent-teal); color: #000; padding: 14px 32px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: transform 0.15s, box-shadow 0.15s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-teal-dim); }
+@media (prefers-color-scheme: light) { .btn-primary { color: #fff; } }
+.btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border-bright); padding: 14px 32px; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: background 0.2s, border-color 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-ghost:hover { background: var(--surface); border-color: var(--text-dim); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeScale { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+.hero-visual { margin-top: 64px; max-width: 960px; margin-left: auto; margin-right: auto; animation: fadeScale 0.8s 0.4s ease both; }
+.flow-bar { display: flex; align-items: center; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; position: relative; overflow: hidden; }
+.flow-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 10px; position: relative; }
+.flow-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border: 1px solid var(--border); }
+.flow-label { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+.flow-step:nth-child(1) .flow-icon { background: var(--accent-amber-dim); color: var(--accent-amber); }
+.flow-step:nth-child(3) .flow-icon { background: var(--accent-slate-dim); color: var(--accent-slate); }
+.flow-step:nth-child(5) .flow-icon { background: var(--accent-teal-dim); color: var(--accent-teal); }
+.flow-step:nth-child(7) .flow-icon { background: var(--accent-emerald-dim); color: var(--accent-emerald); }
+.flow-arrow { flex: 0 0 40px; height: 2px; background: var(--border-bright); position: relative; }
+.flow-arrow::after { content: ''; position: absolute; right: -1px; top: -4px; width: 0; height: 0; border-left: 8px solid var(--border-bright); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+@media (max-width: 640px) { .flow-bar { flex-direction: column; gap: 16px; padding: 24px; } .flow-arrow { display: none; } }
+.section { padding: 80px 0; }
+.section-label { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+.section-label .bar { width: 24px; height: 2px; background: var(--accent-teal); }
+.section h2 { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px; }
+.section .lead { font-size: 1.1rem; color: var(--text-dim); max-width: 620px; }
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; }
+@media (max-width: 960px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .services-grid { grid-template-columns: 1fr; } }
+.service-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px 28px; transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
+.service-card:hover { transform: translateY(-4px); border-color: var(--border-bright); }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0.7; }
+.service-card:nth-child(1)::before { background: var(--accent-amber); }
+.service-card:nth-child(2)::before { background: var(--accent-slate); }
+.service-card:nth-child(3)::before { background: var(--accent-teal); }
+.service-card:nth-child(4)::before { background: var(--accent-emerald); }
+.service-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+.service-card:nth-child(1) .service-icon { background: var(--accent-amber-dim); color: var(--accent-amber); }
+.service-card:nth-child(2) .service-icon { background: var(--accent-slate-dim); color: var(--accent-slate); }
+.service-card:nth-child(3) .service-icon { background: var(--accent-teal-dim); color: var(--accent-teal); }
+.service-card:nth-child(4) .service-icon { background: var(--accent-emerald-dim); color: var(--accent-emerald); }
+.service-card h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 10px; }
+.service-card p { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 16px; }
+.service-card ul { list-style: none; font-size: 0.82rem; }
+.service-card ul li { padding: 4px 0; color: var(--text-dim); padding-left: 16px; position: relative; }
+.service-card ul li::before { content: ''; position: absolute; left: 0; top: 12px; width: 6px; height: 1px; background: var(--text-faint); }
+.arch-wrap { margin-top: 48px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 48px; position: relative; }
+@media (max-width: 768px) { .arch-wrap { padding: 28px; } }
+.arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+@media (max-width: 768px) { .arch-grid { grid-template-columns: 1fr; gap: 32px; } }
+.arch-col h4 { font-family: var(--font-mono); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-faint); margin-bottom: 20px; }
+.arch-layer { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px 20px; margin-bottom: 12px; display: flex; align-items: center; gap: 16px; transition: border-color 0.2s; }
+.arch-layer:hover { border-color: var(--border-bright); }
+.arch-layer-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-faint); width: 24px; }
+.arch-layer-body { flex: 1; }
+.arch-layer-title { font-size: 0.92rem; font-weight: 600; }
+.arch-layer-desc { font-size: 0.8rem; color: var(--text-dim); }
+.arch-layer-tag { font-family: var(--font-mono); font-size: 0.68rem; padding: 3px 8px; border-radius: 4px; }
+.arch-layer:nth-child(2) .arch-layer-tag { background: var(--accent-amber-dim); color: var(--accent-amber); }
+.arch-layer:nth-child(3) .arch-layer-tag { background: var(--accent-slate-dim); color: var(--accent-slate); }
+.arch-layer:nth-child(4) .arch-layer-tag { background: var(--accent-teal-dim); color: var(--accent-teal); }
+.arch-layer:nth-child(5) .arch-layer-tag { background: var(--accent-emerald-dim); color: var(--accent-emerald); }
+.arch-visual { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 32px; min-height: 360px; position: relative; }
+.arch-visual h4 { margin-bottom: 24px; }
+.dflow { display: flex; flex-direction: column; gap: 0; }
+.dflow-node { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.85rem; position: relative; }
+.dflow-node .dn-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+.dflow-node:nth-child(1) .dn-icon { background: var(--accent-amber-dim); color: var(--accent-amber); }
+.dflow-node:nth-child(3) .dn-icon { background: var(--accent-slate-dim); color: var(--accent-slate); }
+.dflow-node:nth-child(5) .dn-icon { background: var(--accent-teal-dim); color: var(--accent-teal); }
+.dflow-node:nth-child(7) .dn-icon { background: var(--accent-emerald-dim); color: var(--accent-emerald); }
+.dflow-line { width: 2px; height: 20px; margin-left: 26px; background: var(--border-bright); }
+.dflow-node .dn-label { font-weight: 500; }
+.dflow-node .dn-sub { font-size: 0.75rem; color: var(--text-faint); font-family: var(--font-mono); }
+.metrics { background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 64px 0; }
+.metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+@media (max-width: 768px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+.metric { text-align: center; }
+.metric-num { font-family: var(--font-head); font-size: 3rem; line-height: 1; letter-spacing: -1px; }
+.metric:nth-child(1) .metric-num { color: var(--accent-amber); }
+.metric:nth-child(2) .metric-num { color: var(--accent-slate); }
+.metric:nth-child(3) .metric-num { color: var(--accent-teal); }
+.metric:nth-child(4) .metric-num { color: var(--accent-emerald); }
+.metric-label { font-size: 0.85rem; color: var(--text-dim); margin-top: 8px; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+@media (max-width: 768px) { .why-grid { grid-template-columns: 1fr; } }
+.why-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px 32px; }
+.why-card h3 { font-family: var(--font-head); font-size: 1.5rem; margin-bottom: 12px; letter-spacing: -0.3px; }
+.why-card p { font-size: 0.92rem; color: var(--text-dim); }
+.why-card .why-num { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-faint); margin-bottom: 16px; }
+.cta-section { padding: 100px 0; text-align: center; }
+.cta-box { background: var(--surface); border: 1px solid var(--border-bright); border-radius: var(--radius); padding: 80px 48px; position: relative; overflow: hidden; }
+.cta-box::before { content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; background: radial-gradient(ellipse, var(--accent-teal-dim), transparent 70%); filter: blur(60px); }
+.cta-box > * { position: relative; }
+.cta-box h2 { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.1; letter-spacing: -1px; margin-bottom: 16px; }
+.cta-box p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 36px; }
+footer { border-top: 1px solid var(--border); padding: 48px 0 32px; }
+footer .container { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
+.footer-brand .logo { margin-bottom: 12px; }
+.footer-brand p { font-size: 0.85rem; color: var(--text-dim); max-width: 280px; }
+.footer-cols { display: flex; gap: 64px; flex-wrap: wrap; }
+.footer-col h5 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-faint); margin-bottom: 16px; }
+.footer-col a { display: block; color: var(--text-dim); text-decoration: none; font-size: 0.88rem; padding: 4px 0; transition: color 0.2s; }
+.footer-col a:hover { color: var(--text); }
+.footer-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footer-bottom p { font-size: 0.8rem; color: var(--text-faint); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <a href="#" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="14" cy="14" r="13" stroke="#14b8a6" stroke-width="1.5"/>
+          <path d="M14 4 C9 8, 9 12, 14 14 C19 16, 19 20, 14 24" stroke="#14b8a6" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <circle cx="14" cy="4" r="2" fill="#14b8a6"/>
+          <circle cx="14" cy="24" r="2" fill="#f59e0b"/>
+        </svg>
+      </span>
+      Fathom
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#architecture">Platform</a></li>
+      <li><a href="#why">Why Fathom</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Book a demo</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="dot"></span> Now onboarding early-access partners</div>
+    <h1>Data that flows.<br>Insights that <em>run deep.</em></h1>
+    <p class="sub">Fathom helps enterprises build unified data foundations — from ingestion to analytics — so your teams can stop wrestling pipelines and start shipping decisions.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a demo &rarr;</a>
+      <a href="#services" class="btn-ghost">Explore the platform</a>
+    </div>
+    <div class="hero-visual">
+      <div class="flow-bar">
+        <div class="flow-step"><div class="flow-icon">&#x2B07;</div><span class="flow-label">Ingest</span></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step"><div class="flow-icon">&#x224B;</div><span class="flow-label">Store</span></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step"><div class="flow-icon">&#x2699;</div><span class="flow-label">Transform</span></div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step"><div class="flow-icon">&#x25C9;</div><span class="flow-label">Analyse</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="services">
+  <div class="container">
+    <div class="section-label"><span class="bar"></span> What we do</div>
+    <h2>Four pillars. One data platform.</h2>
+    <p class="lead">From raw source systems to board-ready dashboards, Fathom covers the full data lifecycle with managed services built for scale, reliability, and speed.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+        <h3>Data Ingestion</h3>
+        <p>Capture data from any source — databases, APIs, event streams, files — with schema-aware connectors that just work.</p>
+        <ul><li>Batch & real-time streaming</li><li>100+ pre-built connectors</li><li>Schema auto-discovery</li><li>Exactly-once delivery</li></ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+        <h3>Data Lake Management</h3>
+        <p>Centralised, governed storage layers built on open table formats. Query your lake directly — no lock-in, no migration debt.</p>
+        <ul><li>Iceberg / Delta / Hudi support</li><li>Time travel & rollback</li><li>Automated compaction</li><li>Cost-aware tiering</li></ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+        <h3>Data Pipelines</h3>
+        <p>Reliable, observable ELT pipelines with built-in lineage. Define transforms as code; let Fathom handle scheduling, retries, and alerts.</p>
+        <ul><li>DAG-based orchestration</li><li>SQL & Python transforms</li><li>Data lineage tracking</li><li>Failure alerts & replay</li></ul>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <h3>Analytics</h3>
+        <p>From ad-hoc SQL exploration to executive dashboards. Fathom's semantic layer gives every team one source of truth.</p>
+        <ul><li>Semantic metrics layer</li><li>BI-agnostic dashboards</li><li>Self-serve exploration</li><li>Embedded analytics API</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="architecture" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="section-label"><span class="bar"></span> The platform</div>
+    <h2>How Fathom fits together</h2>
+    <p class="lead">A layered architecture where data moves cleanly from source to insight — each layer observable, testable, and independently scalable.</p>
+    <div class="arch-wrap">
+      <div class="arch-grid">
+        <div class="arch-col">
+          <h4>// Platform layers</h4>
+          <div class="arch-layer"><span class="arch-layer-num">01</span><div class="arch-layer-body"><div class="arch-layer-title">Ingestion Layer</div><div class="arch-layer-desc">CDC, batch loaders, Kafka & event-stream connectors</div></div><span class="arch-layer-tag">stream + batch</span></div>
+          <div class="arch-layer"><span class="arch-layer-num">02</span><div class="arch-layer-body"><div class="arch-layer-title">Storage Layer</div><div class="arch-layer-desc">Open-format data lake — Iceberg tables on S3 / object store</div></div><span class="arch-layer-tag">lakehouse</span></div>
+          <div class="arch-layer"><span class="arch-layer-num">03</span><div class="arch-layer-body"><div class="arch-layer-title">Transformation Layer</div><div class="arch-layer-desc">SQL & Python transforms, dbt models, orchestration DAGs</div></div><span class="arch-layer-tag">ELT</span></div>
+          <div class="arch-layer"><span class="arch-layer-num">04</span><div class="arch-layer-body"><div class="arch-layer-title">Serving Layer</div><div class="arch-layer-desc">Semantic metrics, BI dashboards, embedded analytics API</div></div><span class="arch-layer-tag">query + serve</span></div>
+        </div>
+        <div class="arch-visual">
+          <h4>// Data journey</h4>
+          <div class="dflow">
+            <div class="dflow-node"><span class="dn-icon">DB</span><div><div class="dn-label">PostgreSQL &middot; MySQL &middot; APIs</div><div class="dn-sub">source systems</div></div></div>
+            <div class="dflow-line"></div>
+            <div class="dflow-node"><span class="dn-icon">&#x224B;</span><div><div class="dn-label">Raw Zone — bronze tables</div><div class="dn-sub">schema-on-read, immutable</div></div></div>
+            <div class="dflow-line"></div>
+            <div class="dflow-node"><span class="dn-icon">&#x2699;</span><div><div class="dn-label">Curated Zone — silver / gold</div><div class="dn-sub">cleaned, modelled, tested</div></div></div>
+            <div class="dflow-line"></div>
+            <div class="dflow-node"><span class="dn-icon">&#x25C9;</span><div><div class="dn-label">Metrics & Dashboards</div><div class="dn-sub">served to BI, API, & apps</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="metrics">
+  <div class="container">
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-num">99.9%</div><div class="metric-label">Pipeline uptime SLA</div></div>
+      <div class="metric"><div class="metric-num">100+</div><div class="metric-label">Source connectors</div></div>
+      <div class="metric"><div class="metric-num"><5min</div><div class="metric-label">Freshness to dashboard</div></div>
+      <div class="metric"><div class="metric-num">PB+</div><div class="metric-label">Data managed at scale</div></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="why">
+  <div class="container">
+    <div class="section-label"><span class="bar"></span> Why Fathom</div>
+    <h2>Built for teams who treat data as product.</h2>
+    <p class="lead">We don't just hand you tools — we operate the platform with you, so your engineers can focus on building, not babysitting infrastructure.</p>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-num">01</div><h3>Open by default</h3><p>No proprietary formats, no lock-in. Your data lives in open table formats (Iceberg, Delta) on storage you own. Move engines anytime without migrating a single byte.</p></div>
+      <div class="why-card"><div class="why-num">02</div><h3>Operated, not just delivered</h3><p>Fathom runs your pipelines in production — monitoring, on-call, SLAs included. You get the benefit of a platform team without hiring one.</p></div>
+      <div class="why-card"><div class="why-num">03</div><h3>Cost-aware engineering</h3><p>Every query, every transform is cost-tracked. Automated tiering and compaction keep your cloud bill predictable as data volume grows.</p></div>
+    </div>
+  </div>
+</section>
+<section class="cta-section" id="contact">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Let's build your data foundation.</h2>
+      <p>Book a 30-minute demo and we'll map your data stack to Fathom's platform — live, with your own use cases.</p>
+      <div class="hero-actions">
+        <a href="mailto:hello@fathomdata.io" class="btn-primary">Book a demo &rarr;</a>
+        <a href="mailto:hello@fathomdata.io" class="btn-ghost">hello@fathomdata.io</a>
+      </div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="container">
+    <div class="footer-brand">
+      <a href="#" class="logo"><span class="logo-mark"><svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="14" cy="14" r="13" stroke="#14b8a6" stroke-width="1.5"/><path d="M14 4 C9 8, 9 12, 14 14 C19 16, 19 20, 14 24" stroke="#14b8a6" stroke-width="1.5" fill="none" stroke-linecap="round"/><circle cx="14" cy="4" r="2" fill="#14b8a6"/><circle cx="14" cy="24" r="2" fill="#f59e0b"/></svg></span> Fathom</a>
+      <p>Data that flows. Insights that run deep. A managed data platform for modern enterprises.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col"><h5>Platform</h5><a href="#services">Data Ingestion</a><a href="#services">Data Lakes</a><a href="#services">Pipelines</a><a href="#services">Analytics</a></div>
+      <div class="footer-col"><h5>Company</h5><a href="#why">Why Fathom</a><a href="#contact">Contact</a><a href="#contact">Careers</a></div>
+      <div class="footer-col"><h5>Connect</h5><a href="mailto:hello@fathomdata.io">hello@fathomdata.io</a><a href="#">LinkedIn</a><a href="#">GitHub</a></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Fathom Data Technologies. All rights reserved.</p>
+      <p>Built for enterprises that treat data as a product.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
